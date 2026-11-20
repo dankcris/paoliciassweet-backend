@@ -1,0 +1,58 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: paolicias-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: paoliciassweet
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  catalogo-service:
+    build: ./catalogo-service
+    container_name: catalogo-service
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/paoliciassweet
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin123
+    depends_on:
+      - postgres
+
+  reservas-service:
+    build: ./reservas-service
+    container_name: reservas-service
+    restart: unless-stopped
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/paoliciassweet
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin123
+    depends_on:
+      - postgres
+
+  comprobantes-service:
+    build: ./comprobantes-service
+    container_name: comprobantes-service
+    restart: unless-stopped
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/paoliciassweet
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin123
+    volumes:
+      - comprobantes_uploads:/app/uploads
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
+  comprobantes_uploads:
