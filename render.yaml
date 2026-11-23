@@ -1,0 +1,47 @@
+# Blueprint de Render: 3 microservicios Spring Boot conectados a Supabase.
+# Render > New > Blueprint > seleccionar este repositorio, y completar las variables marcadas (sync: false).
+services:
+  - type: web
+    name: paoliciassweet-catalogo
+    runtime: docker
+    plan: free
+    dockerfilePath: ./catalogo-service/Dockerfile
+    dockerContext: ./catalogo-service
+    healthCheckPath: /api/productos
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        sync: false
+      - key: SPRING_DATASOURCE_USERNAME
+        sync: false
+      - key: SPRING_DATASOURCE_PASSWORD
+        sync: false
+
+  - type: web
+    name: paoliciassweet-reservas
+    runtime: docker
+    plan: free
+    dockerfilePath: ./reservas-service/Dockerfile
+    dockerContext: ./reservas-service
+    healthCheckPath: /api/reservas
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        sync: false
+      - key: SPRING_DATASOURCE_USERNAME
+        sync: false
+      - key: SPRING_DATASOURCE_PASSWORD
+        sync: false
+
+  - type: web
+    name: paoliciassweet-comprobantes
+    runtime: docker
+    plan: free
+    dockerfilePath: ./comprobantes-service/Dockerfile
+    dockerContext: ./comprobantes-service
+    healthCheckPath: /api/comprobantes
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        sync: false
+      - key: SPRING_DATASOURCE_USERNAME
+        sync: false
+      - key: SPRING_DATASOURCE_PASSWORD
+        sync: false

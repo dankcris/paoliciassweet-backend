@@ -1,0 +1,14 @@
+.env
+.env.*
+!.env.example
+target/
+*.log
+.idea/
+*.iml
+.vscode/
+.DS_Store
+
+# Credenciales y claves privadas
+*.jks
+*.keystore
+service-account*.json
